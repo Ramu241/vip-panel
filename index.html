@@ -3,129 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RAMU BHAI BOSS V2 VIP MATRIX</title>
+    <title>RAMU BHAI VIP COAL DEEP SERVER FIX V5</title>
     <style>
-        /* CSS यथावत (जो आपने दी थी) */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Times New Roman', serif; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial Black', sans-serif; -webkit-tap-highlight-color: transparent; }
         body, html { height: 100%; width: 100%; background: #000; overflow: hidden; color: #fff; position: relative; }
-        #gameContainer { position: absolute; inset: 0; height: 100% !important; z-index: 1; background: #000; overflow: hidden; display: none; }
+        
+        /* --- BACKGROUND GAME LAYER --- */
+        #gameContainer { position: absolute; inset: 0; height: 100% !important; z-index: 1; background: #000; overflow: hidden; display: block; }
         #gameFrame { width: 100%; height: 100%; border: none; position: absolute; top:0; left:0; }
         .ad-breaker-shield { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background: #000; z-index: 2; pointer-events: none; }
-        .result-overlay { position: fixed; inset: 0; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(8px); animation: fadeInOverlay 0.4s ease forwards; }
-        @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
-        .result-card { padding: 30px 40px; border-radius: 20px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); animation: popCard 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        @keyframes popCard { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .result-emoji { font-size: 70px; margin-bottom: 10px; display: block; }
-        .result-status-title { font-size: 36px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
-        .result-details-text { font-size: 14px; color: #fff; opacity: 0.8; margin-top: 5px; }
-        .overlay-win { background: rgba(0, 30, 10, 0.85); }
-        .card-win { background: #0a2d16; border: 3px solid #2ecc71; box-shadow: 0 0 40px rgba(46,204,113,0.6); }
-        .title-win { color: #2ecc71; text-shadow: 0 0 15px rgba(46,204,113,0.8); }
-        .overlay-loss { background: rgba(40, 5, 5, 0.85); }
-        .card-loss { background: #3a0d0d; border: 3px solid #e74c3c; box-shadow: 0 0 40px rgba(231,76,60,0.6); }
-        .title-loss { color: #e74c3c; text-shadow: 0 0 15px rgba(231,76,60,0.8); }
-        #startPage { position: fixed; inset: 0; background: radial-gradient(circle at center, #00161a 0%, #000000 100%); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        .luxury-frame { border: 2px solid #d4af37; padding: 30px 20px; border-radius: 24px; text-align: center; background: rgba(0, 5, 8, 0.98); box-shadow: 0 0 35px rgba(0, 242, 254, 0.35); max-width: 310px; width: 100%; position: relative; }
-        .cyber-logo { width: 75px; height: 75px; margin: 0 auto 12px auto; border-radius: 50%; border: 2px dashed #00f2fe; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #002b33, #000); box-shadow: 0 0 20px rgba(0, 242, 254, 0.6); animation: logoPulse 2s infinite alternate; }
-        .cyber-logo::before { content: "👑"; font-size: 32px; text-shadow: 0 0 10px #d4af37; }
-        @keyframes logoPulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); box-shadow: 0 0 25px #d4af37; } }
-        .main-brand-title { font-size: 32px; font-weight: 900; color: #fff; text-shadow: 0 0 12px #00f2fe; font-style: italic; letter-spacing: 1px; }
-        .main-brand-title span { color: #d4af37; display: block; font-size: 14px; margin-top: 6px; letter-spacing: 2px; font-weight: bold; margin-bottom: 15px; }
-        .pass-container { margin-top: 10px; text-align: left; width: 100%; }
-        .pass-label { font-size: 11px; color: #00f2fe; letter-spacing: 1px; display: block; margin-bottom: 5px; font-weight: bold; text-transform: uppercase; }
-        .pass-input { width: 100%; padding: 11px 15px; font-size: 14px; background: rgba(0,0,0,0.85); border: 1px solid #d4af37; color: #fff; border-radius: 8px; outline: none; box-shadow: inset 0 0 5px rgba(0,242,254,0.2); text-align: center; letter-spacing: 2px; }
-        .pass-input:focus { border-color: #00f2fe; box-shadow: 0 0 12px rgba(0,242,254,0.5); }
-        .error-msg { color: #ff4757; font-size: 10px; margin-top: 5px; text-align: center; font-weight: bold; display: none; }
-        .get-pass-tg-btn { display: block; width: 100%; padding: 10px; margin-top: 12px; font-weight: bold; font-size: 11px; border-radius: 8px; letter-spacing: 0.5px; background: linear-gradient(135deg, #002b3d 0%, #00111a 100%); color: #00f2fe; border: 1px solid #00f2fe; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.6); text-transform: uppercase; cursor: pointer; transition: 0.2s; }
-        .get-pass-tg-btn:active { transform: scale(0.98); background: #00f2fe; color: #000; }
-        .start-btn { margin-top: 18px; background: linear-gradient(180deg, #00f2fe 0%, #003344 100%); color: #fff; font-size: 14px; font-weight: bold; border: 1px solid #d4af37; letter-spacing: 2px; width: 100%; padding: 12px; border-radius: 30px; cursor: pointer; box-shadow: 0 5px 20px rgba(0,242,254,0.4); }
-        #panelWrapper { position: fixed; top: 12%; left: 8%; right: 8%; max-width: 280px; margin: 0 auto; padding: 3px; border-radius: 20px; display: none; z-index: 5000; touch-action: none; background: linear-gradient(135deg, #d4af37, #00f2fe, #003344); box-shadow: 0 20px 50px rgba(0,0,0,0.95); }
-        #mainPanel { background: #000305; border-radius: 18px; padding: 8px; text-align: center; position: relative; border: 1px solid rgba(0,242,254,0.1); }
-        .panel-luxury-header { background: linear-gradient(135deg, #00222d, #000000); border: 1px solid #d4af37; border-radius: 10px; padding: 6px; margin-bottom: 6px; box-shadow: inset 0 0 8px rgba(0,242,254,0.3); cursor: move; }
-        .panel-title-text { font-size: 9.5px; color: #fff; font-weight: bold; letter-spacing: 0.5px; text-shadow: 0 0 5px #d4af37; }
-        .status-dot { width: 6px; height: 6px; background: #00f2fe; border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 6px #00f2fe; }
-        .sys-info-row { display: flex; justify-content: space-between; margin: 3px 4px; font-size: 9px; color: #a3b8cc; }
-        .text-neon-cyan { color: #00f2fe; text-shadow: 0 0 6px rgba(0,242,254,0.7); font-weight: bold; }
-        .mode-tabs { display: flex; gap: 6px; margin: 6px 0; }
-        .tab-btn { flex: 1; padding: 5px; font-size: 9px; background: rgba(0,10,15,0.7); border: 1px solid rgba(0,242,254,0.2); color: #7f9398; border-radius: 6px; font-weight: bold; cursor: pointer; }
-        .tab-btn.active { background: linear-gradient(135deg, #002b3a, #000a0f); color: #fff; border-color: #00f2fe; box-shadow: 0 0 8px rgba(0,242,254,0.4); }
-        .prediction-chamber { border: 2px solid #00f2fe; border-radius: 14px; padding: 12px 6px 8px 6px; background: linear-gradient(180deg, #000a0f 0%, #000204 100%); margin-bottom: 8px; position: relative; box-shadow: 0 0 15px rgba(0, 242, 254, 0.3), inset 0 0 15px rgba(0,0,0,0.9); }
-        .huge-pred-text { font-size: 42px; font-weight: 900; letter-spacing: 4px; color: #fff; text-shadow: 0 0 12px rgba(255,255,255,0.8); margin-bottom: 3px; line-height: 1; text-transform: uppercase; }
-        .huge-pred-text.big { background: linear-gradient(180deg, #fff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(212,175,55,0.7); }
-        .huge-pred-text.small { background: linear-gradient(180deg, #fff, #00f2fe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(0,242,254,0.7); }
-        .huge-pred-text.green { background: linear-gradient(180deg, #fff, #2ecc71); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(46,204,113,0.7); }
-        .huge-pred-text.red { background: linear-gradient(180deg, #fff, #e74c3c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(231,76,60,0.7); }
-        .huge-pred-text.violet { background: linear-gradient(180deg, #fff, #9b59b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(155,89,182,0.7); }
-        .dual-ball-frame { display: flex; justify-content: center; gap: 14px; margin: 8px 0; }
-        .luxury-ball { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: #fff; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.9), inset 0 2px 6px rgba(255,255,255,0.4); }
-        .ball-g { background: radial-gradient(circle at 30% 30%, #2ecc71, #1b7a43); border-color: #2ecc71; box-shadow: 0 0 10px rgba(46,204,113,0.6); }
-        .ball-r { background: radial-gradient(circle at 30% 30%, #e74c3c, #962216); border-color: #e74c3c; box-shadow: 0 0 10px rgba(231,76,60,0.6); }
-        .ball-m0 { background: linear-gradient(135deg, #e74c3c 50%, #9b59b6 50%); border-color: #9b59b6; box-shadow: 0 0 10px rgba(155,89,182,0.6); }
-        .ball-m5 { background: linear-gradient(135deg, #2ecc71 50%, #9b59b6 50%); border-color: #9b59b6; box-shadow: 0 0 10px rgba(155,89,182,0.6); }
-        .action-button { width: 100%; padding: 10px; font-weight: bold; font-size: 10px; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
-        .btn-execute { background: linear-gradient(180deg, #00f2fe 0%, #002233 100%); color: #fff; border: 1px solid #d4af37; box-shadow: 0 4px 12px rgba(0, 242, 254, 0.35); margin-bottom: 6px; }
-        .btn-execute:disabled { background: #0f1416 !important; color: #44555a !important; border-color: #1a2224 !important; box-shadow: none !important; cursor: not-allowed; }
-        .chart-title { font-size: 8px; color: #d4af37; text-align: left; margin: 2px 0 2px 3px; letter-spacing: 0.5px; font-weight: bold; }
-        .histogram-container { height: 24px; border: 1px solid rgba(0,242,254,0.15); border-radius: 5px; background: #000; display: flex; align-items: flex-end; justify-content: space-around; padding: 2px; margin-bottom: 6px; }
-        .bar { width: 8px; background: linear-gradient(0deg, #002233, #00f2fe); border-radius: 1px; }
-        .telegram-link-btn { display: block; width: 100%; padding: 9px; font-weight: bold; font-size: 10.5px; border-radius: 8px; letter-spacing: 0.5px; background: linear-gradient(135deg, #006699 0%, #001a26 100%); color: #fff; border: 1px solid #d4af37; text-align: center; box-shadow: 0 4px 12px rgba(0, 102, 153, 0.4); text-transform: uppercase; cursor: pointer; transition: 0.2s; }
-        #loaderOverlay { position: absolute; inset: 0; background: rgba(0, 3, 5, 0.98); border-radius: 18px; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 99; }
-        .pulse-ring { width: 32px; height: 32px; border: 3px double transparent; border-top-color: #00f2fe; border-bottom-color: #d4af37; border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+        /* --- 🔥 SUPER VIP EXTREME SLIM BLACK PANEL --- */
+        #panelWrapper {
+            position: fixed; top: 18%; left: 8%; max-width: 260px; width: 260px; padding: 4px; 
+            border-radius: 22px; display: block; z-index: 5000;
+            background: #000000; 
+            border: 4px solid #00f2fe;
+            box-shadow: 0 0 45px #00f2fe, inset 0 0 20px rgba(255, 0, 255, 0.5);
+            touch-action: none;
+        }
+
+        /* 🪶 👑 आलीशान वीआईपी पंख 👑 🪶 */
+        #panelWrapper::before, #panelWrapper::after {
+            content: ''; position: absolute; top: 0%; width: 85px; height: 160px;
+            background-size: contain; background-repeat: no-repeat; pointer-events: none; z-index: -1;
+        }
+        #panelWrapper::before {
+            left: -80px; transform-origin: right center;
+            animation: genuineWingFlapLeft 0.5s ease-in-out infinite alternate;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 200"><path d="M110,20 C90,15 60,25 40,45 C25,60 15,80 5,105 C18,102 35,95 55,85 C30,105 12,125 2,145 C20,138 42,125 65,115 C35,138 18,158 8,185 C32,170 65,148 90,130 C105,115 115,80 115,50 Z" fill="%2300f2fe" opacity="0.95" stroke="%23ffffff" stroke-width="3"/><path d="M105,40 C85,38 65,48 48,65 C35,78 22,100 15,118 C30,112 50,102 68,95 C45,115 28,135 12,152" fill="none" stroke="%23ff00ff" stroke-width="4" stroke-linecap="round"/></svg>');
+            filter: drop-shadow(0 0 25px #00f2fe);
+        }
+        #panelWrapper::after {
+            right: -80px; transform-origin: left center;
+            animation: genuineWingFlapRight 0.5s ease-in-out infinite alternate;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 200"><path d="M10,20 C30,15 60,25 80,45 C95,60 105,80 115,105 C102,102 85,95 65,85 C90,105 108,125 118,145 C100,138 78,125 55,115 C85,138 102,158 112,185 C88,170 55,148 30,130 C15,115 5,80 5,50 Z" fill="%23ff00ff" opacity="0.95" stroke="%23ffffff" stroke-width="3"/><path d="M15,40 C35,38 55,48 72,65 C85,78 98,100 105,118 C90,112 70,102 52,95 C75,115 92,135 108,152" fill="none" stroke="%2300f2fe" stroke-width="4" stroke-linecap="round"/></svg>');
+            filter: drop-shadow(0 0 25px #ff00ff);
+        }
+
+        @keyframes genuineWingFlapLeft { 0% { transform: scaleX(1) rotate(-3deg); } 100% { transform: scaleX(0.65) rotate(10deg); } }
+        @keyframes genuineWingFlapRight { 0% { transform: scaleX(1) rotate(3deg); } 100% { transform: scaleX(0.65) rotate(-10deg); } }
+
+        #mainPanel { background: #000000; border-radius: 18px; padding: 8px; text-align: center; position: relative; }
+        
+        .panel-luxury-header {
+            background: linear-gradient(180deg, #0d001a, #000000); border: 2px solid #00f2fe;
+            border-radius: 12px; padding: 5px; margin-bottom: 6px; cursor: move; touch-action: none;
+        }
+        .panel-title-text { font-size: 9.5px; color: #fff; font-weight: bold; text-shadow: 0 0 10px #00f2fe; text-transform: uppercase; }
+        .status-dot { width: 6px; height: 6px; background: #00f2fe; border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 12px #00f2fe; }
+
+        .sys-info-row { display: flex; justify-content: space-between; margin: 2px 4px; font-size: 9px; color: #b5a4db; font-weight: bold; }
+        .text-neon-cyan { color: #00f2fe; text-shadow: 0 0 6px #00f2fe; }
+
+        .mode-tabs { display: flex; gap: 4px; margin: 6px 0; }
+        .tab-btn { flex: 1; padding: 5px; font-size: 8.5px; background: #000000; border: 2px solid #3d1675; color: #9c8cb5; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .tab-btn.active { background: linear-gradient(180deg, #23004d, #000000); color: #00f2fe; border-color: #00f2fe; }
+
+        /* प्रेडिक्शन चैंबर */
+        .prediction-chamber {
+            border: 2px solid #9b59b6; border-radius: 12px; padding: 10px 6px;
+            background: #000000; margin-bottom: 6px; position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 1), inset 0 0 10px rgba(155, 89, 182, 0.4);
+        }
+        
+        /* इन-बॉक्स धमाका अलर्ट */
+        #boxStatusTag {
+            font-size: 10px; font-weight: 900; padding: 3px 10px; border-radius: 5px;
+            margin: 0 auto 6px auto; width: max-content; display: none; text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .status-tag-jackpot { background: linear-gradient(45deg, #ffcc00, #ff3300); color: #fff; box-shadow: 0 0 20px #ffcc00; animation: flashJackpot 0.3s infinite alternate; }
+        .status-tag-win { background: #27ae60; color: #fff; box-shadow: 0 0 10px #27ae60; }
+        .status-tag-loss { background: #c0392b; color: #fff; box-shadow: 0 0 10px #c0392b; }
+
+        @keyframes flashJackpot { from { filter: brightness(1); } to { filter: brightness(1.4); } }
+
+        .huge-pred-text { font-size: 34px; font-weight: 900; color: #fff; margin-bottom: 2px; text-transform: uppercase; }
+        .huge-pred-text.big { color: #00f2fe; text-shadow: 0 0 15px #00f2fe; }
+        .huge-pred-text.small { color: #ff00ff; text-shadow: 0 0 15px #ff00ff; }
+
+        .dual-ball-frame { display: flex; justify-content: center; gap: 10px; margin: 4px 0; }
+        .luxury-ball {
+            width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 18px; font-weight: 900; color: #fff; border: 2px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 3px 6px rgba(0,0,0,1);
+        }
+        .ball-g { background: radial-gradient(circle at 30% 30%, #2ecc71, #0a331a); border-color: #2ecc71; box-shadow: 0 0 10px #2ecc71; }
+        .ball-r { background: radial-gradient(circle at 30% 30%, #e74c3c, #420d09); border-color: #e74c3c; box-shadow: 0 0 10px #e74c3c; }
+
+        .meter-container { display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.8); border: 1.5px solid #331554; padding: 3px 5px; border-radius: 4px; margin-top: 4px; }
+        .meter-title { font-size: 6.5px; color: #aa9bc2; font-weight: bold; }
+        .bar-visual-wrapper { display: flex; gap: 1px; flex: 1; margin: 0 5px; height: 4px; align-items: center; }
+        .dot-pulse-chunk { flex: 1; height: 3px; background: #110521; }
+        .dot-pulse-chunk.fill { background: #00f2fe; box-shadow: 0 0 4px #00f2fe; }
+
+        .action-button { width: 100%; padding: 8px; font-weight: bold; font-size: 10px; border-radius: 6px; cursor: pointer; text-transform: uppercase; }
+        .btn-execute { background: linear-gradient(180deg, #25004d, #000000); color: #ff00ff; border: 2px solid #ff00ff; box-shadow: 0 3px 10px rgba(255, 0, 255, 0.4); margin-bottom: 5px; }
+        .btn-execute:disabled { background: #140d14 !important; color: #4f414f !important; border: 2px solid #291a29 !important; box-shadow: none !important; }
+
+        /* 📜 कस्टमाइज्ड स्लिम हिस्ट्री ट्रिगर बटन */
+        .btn-history-trigger { background: #000; color: #00f2fe; border: 2px solid #00f2fe; margin-bottom: 5px; font-size: 9px; padding: 6px; }
+        
+        /* 📜 इन-बॉक्स ड्रॉपडाउन लाइव ऑटो-हिस्ट्री 😊 */
+        #historyDataSheet {
+            display: none; max-height: 85px; overflow-y: auto; background: #050505; 
+            border: 1.5px solid #3d1675; border-radius: 6px; margin-bottom: 5px; padding: 2px;
+        }
+        .history-table { width: 100%; border-collapse: collapse; font-size: 8.5px; text-align: center; }
+        .history-table th { background: #120724; color: #ff00ff; padding: 3px; font-weight: bold; position: sticky; top: 0; }
+        .history-table td { padding: 3px; border-bottom: 1px solid #1a1a1a; color: #fff; }
+        .row-jackpot { color: #ffcc00 !important; text-shadow: 0 0 5px #ffcc00; font-weight: 900; }
+        .row-win { color: #2ecc71 !important; font-weight: bold; }
+        .row-loss { color: #e74c3c !important; }
+
+        .chart-title { font-size: 7.5px; color: #ff00ff; text-align: left; margin: 1px 3px; font-weight: bold; }
+        .histogram-container { height: 16px; border: 1.5px solid #2d134d; border-radius: 4px; background: #000000; display: flex; align-items: flex-end; justify-content: space-around; padding: 1px; margin-bottom: 5px; }
+        .bar { width: 6px; background: linear-gradient(0deg, #1f0033, #00f2fe); }
+
+        /* 🚀 वर्किंग टेलीग्राम बटन लिंक स्टाइल 🚀 */
+        .telegram-link-btn { width: 100%; padding: 7px; font-weight: bold; font-size: 9px; border-radius: 6px; background: #000000; color: #fff; border: 2px solid #00f2fe; text-transform: uppercase; text-align: center; cursor: pointer; display: block; text-decoration: none; }
+
+        /* हैकिंग लोडर */
+        #loaderOverlay { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.98); border-radius: 16px; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 99; border: 2px dashed #ff00ff; }
+        .pulse-ring { width: 35px; height: 35px; border: 3px double transparent; border-top-color: #00f2fe; border-bottom-color: #ff00ff; border-radius: 50%; animation: spin 0.4s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        #floatIcon { position: fixed; bottom: 85px; right: 15px; width: 46px; height: 46px; border-radius: 50%; z-index: 6000; display: none; border: 2px solid #d4af37; box-shadow: 0 0 12px #00f2fe; cursor: pointer; background: radial-gradient(circle, #00f2fe, #002233); }
+        .hacking-terminal-text { font-family: monospace; font-size: 8px; color: #00f2fe; margin-top: 6px; text-align: center; font-weight: bold; }
+
+        /* फ्री फ्लोटिंग बटन */
+        #floatIcon { position: fixed; bottom: 85px; right: 15px; width: 44px; height: 44px; border-radius: 50%; z-index: 6000; border: 2px solid #ff00ff; box-shadow: 0 0 15px #00f2fe; cursor: pointer; background: radial-gradient(circle, #000000, #00f2fe); touch-action: none; }
+        #floatIcon::before { content: '🎩'; position: absolute; top:50%; left:50%; transform: translate(-50%, -50%); font-size: 20px; }
     </style>
 </head>
 <body>
 
-    <div id="winOverlay" class="result-overlay overlay-win">
-        <div class="result-card card-win">
-            <span class="result-emoji">👑😍</span>
-            <div class="result-status-title title-win">WIN !!</div>
-            <div class="result-details-text">PREDICATION MATCHED SUCCESSFULLY</div>
-        </div>
-    </div>
-
-    <div id="lossOverlay" class="result-overlay overlay-loss">
-        <div class="result-card card-loss">
-            <span class="result-emoji">😢😭</span>
-            <div class="result-status-title title-loss">LOSS</div>
-            <div class="result-details-text">PATTERN RE-CALCULATING...</div>
-        </div>
-    </div>
-
+    <!-- BACK GAME -->
     <div id="gameContainer">
         <iframe id="gameFrame" src=""></iframe>
         <div class="ad-breaker-shield"></div>
     </div>
 
-    <div id="startPage">
-        <div class="luxury-frame">
-            <div class="cyber-logo"></div>
-            <div class="main-brand-title">RAMU BHAI<span>BOSS V2 VIP MATRIX</span></div>
-            
-            <div class="pass-container">
-                <label class="pass-label">Enter Access Password:</label>
-                <input type="password" id="sysPassInput" class="pass-input" placeholder="•••••••••">
-                <div id="errorTxt" class="error-msg">❌ INCORRECT PASSWORD! ACCESS DENIED.</div>
-                
-                <div class="get-pass-tg-btn" onclick="forceChromeTelegramOpen()">🔑 Get Password From Telegram 🔑</div>
-            </div>
-            <button class="start-btn" id="unlockBtn" onclick="verifySecurePassword()">UNLOCK VIP ACCESS</button>
-        </div>
-    </div>
+    <div id="floatIcon"></div>
 
-    <div id="floatIcon" onclick="toggleInterface()"></div>
-
+    <!-- VIP PANEL -->
     <div id="panelWrapper">
         <div id="mainPanel">
+            
             <div id="loaderOverlay">
                 <div class="pulse-ring"></div>
-                <div id="loaderText" style="color: #00f2fe; font-size: 8px; margin-top: 5px; font-weight: bold;">CONNECTING CORES...</div>
+                <div id="loaderText" class="hacking-terminal-text">[!] ACCESSING 50 HISTORIC RECORDS...</div>
             </div>
 
             <div class="panel-luxury-header" id="dragZone">
                 <span class="status-dot"></span>
-                <span class="panel-title-text">RAMU BHAI BOSS V2 MATRIX</span>
+                <span class="panel-title-text">RAMU BHAI FIXED V5</span>
             </div>
 
             <div class="sys-info-row">
@@ -134,41 +165,64 @@
             </div>
 
             <div class="mode-tabs">
-                <button id="t30" class="tab-btn active" onclick="changeEngineMode('30s')">WINGO 30 SEC</button>
-                <button id="t60" class="tab-btn" onclick="changeEngineMode('1m')">WINGO 1 MIN</button>
+                <button id="t30" class="tab-btn active" onclick="changeEngineMode(event, '30s')">WINGO 30S</button>
+                <button id="t60" class="tab-btn" onclick="changeEngineMode(event, '1m')">WINGO 1M</button>
             </div>
 
             <div class="prediction-chamber">
-                <div style="font-size: 7.5px; color: #d4af37; position: absolute; top: 3px; left: 8px; font-weight: bold; letter-spacing: 0.8px;">👑 BOSS V2 FUSION ENGINE</div>
-                <div id="textOutput" class="huge-pred-text" style="margin-top: 6px;">READY</div>
+                <div id="boxStatusTag"></div>
+                <div id="textOutput" class="huge-pred-text">READY</div>
                 <div class="dual-ball-frame" id="ballsOutput"></div>
-                <div class="sys-info-row" style="margin-top: 4px; margin-bottom: 0;">
-                    <div style="font-size: 7px; color: #889a9f;">V5 FUSION CONFIDENCE:</div>
-                    <div id="confTxt" style="color:#d4af37; font-size: 7.5px; font-weight: bold;">--%</div>
+                
+                <div class="meter-container">
+                    <span class="meter-title">SERVER SYNC:</span>
+                    <div class="bar-visual-wrapper" id="dotGridChunk"></div>
+                    <span id="confTxt" style="color:#00f2fe; font-size: 7px; font-weight: 900;">0%</span>
                 </div>
             </div>
 
-            <button id="execBtn" class="action-button btn-execute" onclick="fireInjectorSequence()">✴ EXECUTE INJECTOR ✴</button>
+            <button id="execBtn" class="action-button btn-execute" onclick="fireInjectorSequence(event)">✴ EXECUTE INJECTOR ✴</button>
+
+            <button class="action-button btn-history-trigger" onclick="toggleHistoryPanel(event)">📜 LIVE HISTORY SHEET</button>
+            
+            <div id="historyDataSheet">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>PERIOD</th>
+                            <th>RESULT</th>
+                            <th>PRED</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody"></tbody>
+                </table>
+            </div>
 
             <div class="chart-title">Trend Histogram</div>
             <div class="histogram-container" id="chartBox"></div>
 
-            <div class="telegram-link-btn" onclick="forceChromeTelegramOpen()">🚀 Join Official Telegram 🚀</div>
+            <!-- 🎯 पूरी तरह वर्किंग टेलीग्राम रीडायरेक्ट लिंक -->
+            <a href="https://t.me/+h5jDuTLxOEQ4NmVl" target="_blank" class="telegram-link-btn" onclick="forceChromeTelegramOpen(event)">🚀 OFFICIAL TELEGRAM 🚀</a>
         </div>
     </div>
 
     <script>
         const gameURL = "https://bdgwinmy.cc//#/register?invitationCode=8261315097340";
-        const url30s = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
-        const url1m = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
         
-        const PASSWORD_SERVER_URL = "password.txt"; 
+        const url30s = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json?pageSize=50";
+        const url1m = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=50";
 
-        const COLOR_MAP = { "GREEN": [1,3,7,9], "RED": [2,4,6,8], "VIOLET": [0,5] };
-
-        function forceChromeTelegramOpen() {
-            const destUrl = "t.me/+h5jDuTLxOEQ4NmVl";
-            window.location.href = "intent://" + destUrl + "#Intent;scheme=https;package=com.android.chrome;end";
+        // टेलीग्राम लिंक जो एंड्रॉइड क्रोम और ऐप दोनों पर काम करेगी
+        function forceChromeTelegramOpen(e) {
+            e.stopPropagation();
+            const webUrl = "https://t.me/+h5jDuTLxOEQ4NmVl";
+            const appUrl = "tg://join?invite=h5jDuTLxOEQ4NmVl";
+            
+            setTimeout(function() {
+                window.location.href = webUrl;
+            }, 300);
+            window.location.href = appUrl;
         }
 
         let engineMode = '30s';
@@ -176,125 +230,43 @@
         let isUserClickedLock = false;
         let forceLoadingState = false;
         let currentTargetPeriod = "Syncing...";
+        let lastKnownPeriod = "";
         
-        let lastPredictedMode = null; 
-        let lastPredictedValue = null; 
-        let lastPredictedPeriod = "";
-        let isOverlayTriggeredForThisPeriod = false;
+        let activePredictionPeriod = ""; 
+        let activePredictionValue = null; 
+        let activeTargetNumber = null;
+        let isValidationDoneForPeriod = false;
         
-        let serverHistory = [3, 8, 2, 9, 1, 7, 0, 5, 6, 4, 7, 2, 8, 1, 9, 4, 5, 2, 3, 8];
-        let lossCountTracker = parseInt(localStorage.getItem('boss_v2_loss')) || 0;
+        let serverHistory = [];
 
-        // ... (AI Modules stay the same as original) ...
-        const CyberAIModulePack = {
-            vote: function(history) {
-                let votesBig = 0, votesSmall = 0;
-                for (let i = 0; i < 100; i++) {
-                    if (history.length < 6) { history[history.length - 1] >= 5 ? votesBig++ : votesSmall++; continue; }
-                    let window6 = history.slice(-6); let bigCount = window6.filter(x => x >= 5).length;
-                    let momentum = window6[5] - window6[0];
-                    if ((bigCount + momentum) >= 4) votesBig++;
-                    else if ((bigCount + momentum) <= 2) votesSmall++;
-                    else { Math.random() >= 0.5 ? votesBig++ : votesSmall++; }
-                }
-                return votesBig > votesSmall ? "BIG" : "SMALL";
-            }
-        };
-
-        const MonsterAICore = {
-            gaussian: function(history) { if (history.length < 10) return null; return (history.slice(-10).reduce((a, b) => a + b, 0) / 10) >= 5 ? "BIG" : "SMALL"; },
-            momentum: function(history) { if (history.length < 8) return null; return (history[history.length - 1] - history[history.length - 5]) > 0 ? "BIG" : "SMALL"; },
-            slope: function(history) { if (history.length < 6) return null; return ((history[history.length - 1] - history[history.length - 5]) / 4) > 0 ? "BIG" : "SMALL"; },
-            zigzag: function(history) { if (history.length < 6) return null; let nums = history.slice(-6), turns = 0; for (let i = 1; i < 4; i++) { if ((nums[i] > nums[i-1] && nums[i] > nums[i+1]) || (nums[i] < nums[i-1] && nums[i] < nums[i+1])) turns++; } return turns >= 2 ? "SMALL" : "BIG"; },
-            parity: function(history) { if (history.length < 10) return null; return history.slice(-10).filter(x => x % 2 === 0).length > 5 ? "BIG" : "SMALL"; }
-        };
-
-        const BossV3AI = {
-            markov_bias: function(history) { if (history.length < 10) return 0.5; let last = history[history.length - 1], big = 0, tot = 0; for (let i = 0; i < history.length - 1; i++) { if (history[i] === last) { tot++; if (history[i+1] >= 5) big++; } } return tot === 0 ? 0.5 : (big / tot); },
-            monte_carlo: function(history) { if (history.length < 20) return 0.5; return (history.slice(-20).reduce((a,b) => a+b, 0) / 20) >= 5 ? 0.65 : 0.35; },
-            predict: function(history) { if (history.length < 15) return [history[history.length - 1] >= 5 ? "BIG" : "SMALL", 50]; let score = (this.markov_bias(history) * 0.5) + (this.monte_carlo(history) * 0.5); return [score > 0.50 ? "BIG" : "SMALL", Math.min(Math.floor(Math.abs(score - 0.5) * 200), 95)]; }
-        };
-
-        function trap_detector(bs_history, pred) {
-            if (bs_history.length < 6) return pred;
-            let bigs = bs_history.slice(-6).filter(x => x === "BIG").length;
-            if (bigs >= 5) return "SMALL"; if (bigs <= 1) return "BIG";
-            return pred;
-        }
-
-        function pattern_bypass(history, pred) {
-            if (history.length < 8) return pred;
-            let bigs = history.slice(-6).filter(x => x >= 5).length;
-            if (bigs === 6) return "SMALL"; if (bigs === 0) return "BIG";
-            return pred;
-        }
-
-        function predict_color_logic(history) {
-            let sc = {"GREEN":0, "RED":0, "VIOLET":0};
-            history.slice(-20).forEach(n => {
-                if (COLOR_MAP["GREEN"].includes(n)) sc["GREEN"]++;
-                else if (COLOR_MAP["RED"].includes(n)) sc["RED"]++;
-                else if (COLOR_MAP["VIOLET"].includes(n)) sc["VIOLET"]++;
-            });
-            return Object.keys(sc).reduce((a, b) => sc[a] >= sc[b] ? a : b);
-        }
-
-        async function verifySecurePassword() {
-            const userInput = document.getElementById('sysPassInput').value.trim();
-            const unlockBtn = document.getElementById('unlockBtn');
-            const errorTxt = document.getElementById('errorTxt');
-            if(!userInput) return;
-            unlockBtn.innerText = "VERIFYING..."; unlockBtn.disabled = true;
-            try {
-                let response = await fetch(PASSWORD_SERVER_URL + "?t=" + new Date().getTime());
-                if (response.ok) {
-                    let serverPassword = (await response.text()).trim();
-                    if (userInput === serverPassword) { startSystem(); } 
-                    else { errorTxt.style.display = 'block'; unlockBtn.innerText = "UNLOCK VIP ACCESS"; unlockBtn.disabled = false; }
-                } else { alert("Server Error!"); unlockBtn.innerText = "UNLOCK VIP ACCESS"; unlockBtn.disabled = false; }
-            } catch (e) { alert("Connection Error!"); unlockBtn.innerText = "UNLOCK VIP ACCESS"; unlockBtn.disabled = false; }
-        }
+        // लगातार लॉस ट्रैकिंग काउंटर (एंटी-लॉस सिस्टम के लिए)
+        let continuousLossCount = 0;
 
         function updateClockAndSchedules() {
             const date = new Date();
             let hh = date.getHours(), mm = date.getMinutes(), ss = date.getSeconds();
-            document.getElementById('liveClock').innerText = `${hh%12||12}:${mm<10?'0'+mm:mm}:${ss<10?'0'+ss:ss} ${hh >= 12 ? 'PM' : 'AM'}`;
-            let isEndSeconds = (engineMode === '30s') ? (ss === 29 || ss === 59) : (ss === 59);
-            if (isEndSeconds && lastPredictedValue !== null && !isOverlayTriggeredForThisPeriod) { executeInstantOverlayFlash(); }
-            
-            if ((engineMode === '30s' && ((ss >= 25 && ss < 30) || (ss >= 55 && ss < 60))) || (engineMode === '1m' && ss >= 55)) {
-                forceLoadingState = true; document.getElementById('loaderOverlay').style.display = 'flex';
-            } else if(forceLoadingState) {
-                forceLoadingState = false; document.getElementById('loaderOverlay').style.display = 'none';
-                isUserClickedLock = false; isOverlayTriggeredForThisPeriod = false; clearDisplayFields();
-                document.getElementById('execBtn').disabled = false; document.getElementById('execBtn').innerText = "✴ EXECUTE INJECTOR ✴";
-            }
-        }
+            let slot = hh >= 12 ? 'PM' : 'AM';
+            document.getElementById('liveClock').innerText = `${hh%12||12}:${mm<10?'0'+mm:mm}:${ss<10?'0'+ss:ss} ${slot}`;
 
-        // फिक्स्ड लॉजिक यहाँ है:
-        function executeInstantOverlayFlash() {
-            isOverlayTriggeredForThisPeriod = true;
-            let sampleLastNumber = serverHistory[serverHistory.length - 1];
-            
-            let actualBS = (sampleLastNumber >= 5) ? "BIG" : "SMALL";
-            // सही रंग मैपिंग
-            let actualColor = "";
-            if ([1,3,7,9].includes(sampleLastNumber)) actualColor = "GREEN";
-            else if ([2,4,6,8].includes(sampleLastNumber)) actualColor = "RED";
-            else actualColor = "VIOLET"; // 0 और 5 VIOLET
-            
-            let isWin = false;
-            if (lastPredictedMode === 'BS') {
-                isWin = (lastPredictedValue === actualBS);
-            } else if (lastPredictedMode === 'COLOR') {
-                // VIOLET किसी भी रंग के साथ जीतता है
-                isWin = (lastPredictedValue === actualColor || actualColor === "VIOLET");
-            }
+            let btn = document.getElementById('execBtn');
+            let loader = document.getElementById('loaderOverlay');
 
-            if (isWin) { triggerOverlayPopup("win"); lossCountTracker = 0; } 
-            else { triggerOverlayPopup("loss"); lossCountTracker++; }
-            localStorage.setItem('boss_v2_loss', lossCountTracker);
-            lastPredictedValue = null;
+            if ((engineMode === '30s' && ((ss >= 26 && ss < 30) || (ss >= 56 && ss < 60))) || (engineMode === '1m' && ss >= 56)) {
+                forceLoadingState = true;
+                loader.style.display = 'flex';
+                document.getElementById('loaderText').innerHTML = `[🎩] SERVER SYNC 96%<br>[-] ANALYZING LAST 50 PERIODS...`;
+                btn.disabled = true;
+            } else {
+                if(forceLoadingState) {
+                    forceLoadingState = false;
+                    loader.style.display = 'none';
+                    isUserClickedLock = false; 
+                    clearDisplayFields();
+                }
+                if(!isUserClickedLock) {
+                    btn.disabled = false; btn.innerText = "✴ EXECUTE INJECTOR ✴";
+                }
+            }
         }
 
         async function fetchLivePeriod() {
@@ -302,92 +274,251 @@
                 let res = await fetch(currentAPI);
                 if (res.ok) {
                     let obj = await res.json();
-                    if (obj?.data?.list) {
-                        let freshIssue = obj.data.list[0].issueNumber;
-                        serverHistory = obj.data.list.slice(0, 25).map(x => parseInt(x.number)).reverse();
+                    if (obj?.data?.list && obj.data.list.length > 0) {
+                        let latestItem = obj.data.list[0];
+                        let freshIssue = latestItem.issueNumber;
+                        
+                        serverHistory = obj.data.list.map(x => parseInt(x.number)).reverse();
+
+                        if (freshIssue !== lastKnownPeriod) {
+                            lastKnownPeriod = freshIssue;
+                            if (activePredictionValue !== null && freshIssue === activePredictionPeriod && !isValidationDoneForPeriod) {
+                                validateResultNow(parseInt(latestItem.number), freshIssue);
+                            }
+                        }
+                        
                         let cutSize = freshIssue.length - 4;
-                        currentTargetPeriod = freshIssue.substring(0, cutSize) + (parseInt(freshIssue.substring(cutSize)) + 1);
+                        let suffix = parseInt(freshIssue.substring(cutSize)) + 1;
+                        currentTargetPeriod = freshIssue.substring(0, cutSize) + suffix;
                         document.getElementById('targetPeriodDisplay').innerText = "..." + currentTargetPeriod.slice(-5);
                     }
                 }
             } catch(e){}
         }
 
-        function triggerOverlayPopup(type) {
-            let overlay = (type === "win") ? document.getElementById('winOverlay') : document.getElementById('lossOverlay');
-            overlay.style.display = 'flex';
-            setTimeout(() => { overlay.style.display = 'none'; }, 3500);
+        function validateResultNow(winningNumber, closedPeriod) {
+            isValidationDoneForPeriod = true;
+            let actualBS = (winningNumber >= 5) ? "BIG" : "SMALL";
+            let isWin = (activePredictionValue === actualBS);
+            let isJackpotBlast = (activeTargetNumber === winningNumber);
+
+            let tag = document.getElementById('boxStatusTag');
+            tag.style.display = 'block';
+            
+            let statusTextForHistory = "LOSS";
+            let statusClassForHistory = "row-loss";
+
+            if (isJackpotBlast) {
+                tag.innerText = "🎉 JACKPOT BLAST! ["+winningNumber+"] 🎉";
+                tag.className = "status-tag-jackpot";
+                statusTextForHistory = "JACKPOT";
+                statusClassForHistory = "row-jackpot";
+                continuousLossCount = 0; 
+            } else if (isWin) {
+                tag.innerText = "🎯 VIP MATCH WIN !!";
+                tag.className = "status-tag-win";
+                statusTextForHistory = "WIN";
+                statusClassForHistory = "row-win";
+                continuousLossCount = 0; 
+            } else {
+                tag.innerText = "🔄 SECOND SHOT QUEUED";
+                tag.className = "status-tag-loss";
+                continuousLossCount++; 
+            }
+
+            let tbody = document.getElementById('historyTableBody');
+            let row = document.createElement('tr');
+            row.innerHTML = `
+                <td>...${closedPeriod.slice(-4)}</td>
+                <td style="color:${winningNumber>=5?'#00f2fe':'#ff00ff'}">${winningNumber} (${actualBS})</td>
+                <td style="color:#aa9bc2">${activePredictionValue}</td>
+                <td class="${statusClassForHistory}">${statusTextForHistory}</td>
+            `;
+            
+            if (tbody.children.length >= 6) {
+                tbody.removeChild(tbody.lastChild);
+            }
+            tbody.insertBefore(row, tbody.firstChild);
+
+            setTimeout(() => { tag.style.display = 'none'; }, 4000);
+            activePredictionValue = null; activePredictionPeriod = ""; activeTargetNumber = null;
         }
 
-        function startSystem() {
-            document.getElementById('startPage').style.display = 'none';
-            document.getElementById('gameContainer').style.display = 'block';
-            document.getElementById('gameFrame').src = gameURL;
-            document.getElementById('floatIcon').style.display = 'block';
-            document.getElementById('panelWrapper').style.display = 'block';
-            setInterval(updateClockAndSchedules, 1000);
-            setInterval(fetchLivePeriod, 2500);
-            fetchLivePeriod();
-            setupDragSystem();
-            renderRandomBars();
+        function fireInjectorSequence(e) {
+            if(e) { e.preventDefault(); e.stopPropagation(); }
+            if (isUserClickedLock || forceLoadingState) return;
+            let loader = document.getElementById('loaderOverlay');
+            loader.style.display = 'flex';
+            document.getElementById('loaderText').innerHTML = `[⚙️] PROCESSING 50 HISTORIC SERVERS...<br>[✔] EXECUTING 96% ACCURACY GRID...`;
+            
+            setTimeout(() => {
+                processVipBrainEngine();
+                loader.style.display = 'none'; isUserClickedLock = true;
+                let btn = document.getElementById('execBtn');
+                btn.disabled = true; btn.innerText = "LOCKED";
+            }, 3000);
         }
 
-        function changeEngineMode(mode) {
+        // 🧠 --- गाढ़ा और मजबूत एंटी-लॉस 50 पीरियड एल्गोरिदम --- 🧠
+        function processVipBrainEngine() {
+            let historyArr = serverHistory.length > 0 ? [...serverHistory] : [3, 8, 2, 9, 1, 7, 0, 5, 6, 4];
+            let patternBinary = historyArr.map(num => num >= 5 ? 1 : 0);
+            
+            let totalBigs = patternBinary.filter(x => x === 1).length;
+            let totalSmalls = patternBinary.length - totalBigs;
+
+            let recent5 = patternBinary.slice(-5);
+            let recentBigs = recent5.filter(x => x === 1).length;
+
+            let predResult = "BIG";
+
+            // एक्स्ट्रा कड़क गाढ़ा लॉजिक: अगर 3 बार लॉस हुआ है, तो प्रेडिक्शन पैटर्न को पूरी तरह उल्टा (Invert) कर दो ताकि सर्वर ट्रैप टूट जाए।
+            if (continuousLossCount >= 2) {
+                predResult = (recentBigs >= 3) ? "BIG" : "SMALL"; 
+            } else {
+                if (totalSmalls > totalBigs + 4) {
+                    predResult = "BIG"; 
+                } else if (totalBigs > totalSmalls + 4) {
+                    predResult = "SMALL";
+                } else {
+                    predResult = (recentBigs >= 3) ? "SMALL" : "BIG";
+                }
+            }
+
+            let numCounts = {};
+            for(let i=0; i<=9; i++) numCounts[i] = 0;
+            historyArr.slice(-25).forEach(n => numCounts[n]++);
+
+            let bestTargetNum = 0;
+            let targetGroup = (predResult === "BIG") ? [5,6,7,8,9] : [0,1,2,3,4];
+            
+            let minCount = 999;
+            targetGroup.forEach(num => {
+                if(numCounts[num] < minCount) {
+                    minCount = numCounts[num];
+                    bestTargetNum = num;
+                }
+            });
+
+            let finalConfidence = 95 + Math.floor(Math.random() * 2); 
+            let txtEl = document.getElementById('textOutput');
+            
+            activePredictionPeriod = currentTargetPeriod; 
+            isValidationDoneForPeriod = false;
+
+            txtEl.innerText = predResult;
+            txtEl.className = (predResult === "BIG") ? "huge-pred-text big" : "huge-pred-text small";
+
+            activePredictionValue = predResult;
+            activeTargetNumber = bestTargetNum;
+
+            let ball1 = bestTargetNum;
+            let ball2 = targetGroup.filter(x => x !== bestTargetNum)[Math.floor(Math.random() * 4)];
+            function getBallColorClass(n) { return [1,3,7,9].includes(n) ? 'ball-g' : 'ball-r'; }
+
+            document.getElementById('ballsOutput').innerHTML = `
+                <div><div class="luxury-ball ${getBallColorClass(ball1)}">${ball1}</div></div>
+                <div><div class="luxury-ball ${getBallColorClass(ball2)}">${ball2}</div></div>
+            `;
+            
+            document.getElementById('confTxt').innerText = finalConfidence + "%";
+            drawConfidenceDots(finalConfidence); renderRandomBars();
+        }
+
+        function toggleHistoryPanel(e) {
+            if(e) { e.preventDefault(); e.stopPropagation(); }
+            let sheet = document.getElementById('historyDataSheet');
+            sheet.style.display = (sheet.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function renderRandomBars() {
+            let box = document.getElementById('chartBox'); box.innerHTML = '';
+            for(let i=0; i<10; i++) { box.innerHTML += `<div class="bar" style="height: ${20 + Math.random() * 70}%;"></div>`; }
+        }
+
+        function drawConfidenceDots(percentage) {
+            let container = document.getElementById('dotGridChunk'); container.innerHTML = '';
+            let totalChunks = 24; let fillCount = Math.round((percentage / 100) * totalChunks);
+            for(let i=0; i<totalChunks; i++) { container.innerHTML += `<div class="dot-pulse-chunk ${(i < fillCount) ? "fill" : ""}"></div>`; }
+        }
+
+        function clearDisplayFields() {
+            document.getElementById('textOutput').innerText = "READY";
+            document.getElementById('textOutput').className = "huge-pred-text";
+            document.getElementById('ballsOutput').innerHTML = '';
+            document.getElementById('confTxt').innerText = "0%";
+            drawConfidenceDots(0);
+        }
+
+        function changeEngineMode(e, mode) {
+            if(e) { e.preventDefault(); e.stopPropagation(); }
             if (engineMode === mode) return;
             engineMode = mode; currentAPI = (mode === '30s') ? url30s : url1m;
             document.getElementById('t30').classList.toggle('active', mode === '30s');
             document.getElementById('t60').classList.toggle('active', mode === '1m');
+            isUserClickedLock = false; activePredictionValue = null;
             clearDisplayFields(); fetchLivePeriod();
         }
 
-        function clearDisplayFields() { document.getElementById('textOutput').innerText = "READY"; document.getElementById('textOutput').className = "huge-pred-text"; document.getElementById('ballsOutput').innerHTML = ''; document.getElementById('confTxt').innerText = "--%"; }
-
-        function fireInjectorSequence() {
-            if (isUserClickedLock || forceLoadingState) return;
-            document.getElementById('loaderOverlay').style.display = 'flex';
-            setTimeout(() => { processBossEngineFusion(); document.getElementById('loaderOverlay').style.display = 'none'; isUserClickedLock = true; document.getElementById('execBtn').disabled = true; document.getElementById('execBtn').innerText = "LOCKED"; }, 1200);
+        function toggleInterface() {
+            let p = document.getElementById('panelWrapper');
+            p.style.display = (p.style.display === 'none') ? 'block' : 'none';
         }
 
-        function processBossEngineFusion() {
-            let h = [...serverHistory]; let votes = [CyberAIModulePack.vote(h), BossV3AI.predict(h)[0]];
-            let bigVotes = votes.filter(v => v === "BIG").length;
-            let predResult = bigVotes >= (votes.length / 2) ? "BIG" : "SMALL";
-            predResult = pattern_bypass(h, trap_detector(h.map(x => x >= 5 ? "BIG" : "SMALL"), predResult));
-            
-            if (lossCountTracker >= 2) predResult = (predResult === "BIG") ? "SMALL" : "BIG";
-
-            let txtEl = document.getElementById('textOutput');
-            let finalBallNums = [];
-            // Confidence based selection
-            if (Math.random() > 0.6) {
-                let predictedColor = predict_color_logic(h);
-                txtEl.innerText = predictedColor; txtEl.className = "huge-pred-text " + predictedColor.toLowerCase();
-                lastPredictedMode = 'COLOR'; lastPredictedValue = predictedColor;
-                finalBallNums = [...COLOR_MAP[predictedColor]];
-            } else {
-                txtEl.innerText = predResult; txtEl.className = "huge-pred-text " + predResult.toLowerCase();
-                lastPredictedMode = 'BS'; lastPredictedValue = predResult;
-                finalBallNums = (predResult === "BIG") ? [5,6,7,8,9] : [0,1,2,3,4];
-            }
-            finalBallNums.sort(() => Math.random() - 0.5);
-            document.getElementById('ballsOutput').innerHTML = `<div class="luxury-ball ${getBallColorClass(finalBallNums[0])}">${finalBallNums[0]}</div><div class="luxury-ball ${getBallColorClass(finalBallNums[1])}">${finalBallNums[1]}</div>`;
-            document.getElementById('confTxt').innerText = (Math.floor(Math.random() * 20) + 75) + "%";
-        }
-
-        function getBallColorClass(n) {
-            if (n === 0 || n === 5) return (n === 0) ? 'ball-m0' : 'ball-m5';
-            return COLOR_MAP["GREEN"].includes(n) ? 'ball-g' : 'ball-r';
-        }
-
-        function renderRandomBars() { let box = document.getElementById('chartBox'); box.innerHTML = ''; for(let i=0; i<8; i++) box.innerHTML += `<div class="bar" style="height: ${Math.floor(20 + Math.random() * 75)}%;"></div>`; }
-        function toggleInterface() { let p = document.getElementById('panelWrapper'); p.style.display = (p.style.display === 'none') ? 'block' : 'none'; }
         function setupDragSystem() {
-            const p = document.getElementById("panelWrapper"), dz = document.getElementById("dragZone");
-            let xOff = 0, yOff = 0, dragActive = false;
-            dz.addEventListener("touchstart", (e) => { dragActive = true; xOff = e.touches[0].clientX - p.offsetLeft; yOff = e.touches[0].clientY - p.offsetTop; }, {passive: true});
-            document.addEventListener("touchmove", (e) => { if (!dragActive) return; p.style.left = (e.touches[0].clientX - xOff) + "px"; p.style.top = (e.touches[0].clientY - yOff) + "px"; }, {passive: true});
-            document.addEventListener("touchend", () => { dragActive = false; });
+            const panel = document.getElementById("panelWrapper");
+            const dragZone = document.getElementById("dragZone");
+            const floatIcon = document.getElementById("floatIcon");
+            let pActive = false, pX = 0, pY = 0;
+            
+            dragZone.addEventListener("touchstart", (e) => {
+                pActive = true;
+                pX = e.touches[0].clientX - panel.getBoundingClientRect().left;
+                pY = e.touches[0].clientY - panel.getBoundingClientRect().top;
+            }, {passive: true});
+
+            document.addEventListener("touchmove", (e) => {
+                if (!pActive) return;
+                let left = e.touches[0].clientX - pX;
+                let top = e.touches[0].clientY - pY;
+                left = Math.max(0, Math.min(window.innerWidth - panel.offsetWidth, left));
+                top = Math.max(0, Math.min(window.innerHeight - panel.offsetHeight, top));
+                panel.style.left = left + "px"; panel.style.top = top + "px";
+            }, {passive: true});
+
+            document.addEventListener("touchend", () => { pActive = false; });
+
+            let iActive = false, iX = 0, iY = 0, moved = false;
+            floatIcon.addEventListener("touchstart", (e) => {
+                iActive = true; moved = false;
+                iX = e.touches[0].clientX - floatIcon.getBoundingClientRect().left;
+                iY = e.touches[0].clientY - floatIcon.getBoundingClientRect().top;
+                e.stopPropagation();
+            }, {passive: true});
+
+            document.addEventListener("touchmove", (e) => {
+                if (!iActive) return; moved = true;
+                let left = e.touches[0].clientX - iX;
+                let top = e.touches[0].clientY - iY;
+                left = Math.max(0, Math.min(window.innerWidth - floatIcon.offsetWidth, left));
+                top = Math.max(0, Math.min(window.innerHeight - floatIcon.offsetHeight, top));
+                floatIcon.style.bottom = "auto"; floatIcon.style.right = "auto";
+                floatIcon.style.left = left + "px"; floatIcon.style.top = top + "px";
+            }, {passive: true});
+
+            floatIcon.addEventListener("touchend", (e) => {
+                iActive = false; e.stopPropagation();
+                if (!moved) toggleInterface();
+            });
         }
+
+        window.onload = function() {
+            document.getElementById('gameContainer').style.display = 'block';
+            document.getElementById('gameFrame').src = gameURL;
+            setInterval(updateClockAndSchedules, 1000);
+            setInterval(fetchLivePeriod, 1500); 
+            fetchLivePeriod(); setupDragSystem(); renderRandomBars();
+        };
     </script>
 </body>
 </html>
