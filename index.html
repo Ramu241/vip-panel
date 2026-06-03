@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RAMU BHAI VIP MATRIX V14</title>
     <style>
-        /* --- 🎯 स्क्रीन और लेआउट फिक्स --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Impact', 'Arial Black', sans-serif; -webkit-tap-highlight-color: transparent; }
         body, html { height: 100%; width: 100%; background: #000; overflow: hidden; color: #fff; position: relative; user-select: none; -webkit-user-select: none; }
         
         #gameContainer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh !important; z-index: 1; background: #000; overflow: hidden; }
         #gameFrame { width: 100%; height: 100%; border: none; display: block; }
 
-        /* --- 🛑 ब्राउज़र ब्लॉक स्क्रीन --- */
         #browserBlocker {
             position: fixed; inset: 0; background: #000; z-index: 9999999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -22,7 +20,6 @@
         .block-title { color: #ff0055; font-size: 24px; margin-bottom: 15px; text-transform: uppercase; }
         .block-text { color: #a5b4fc; font-size: 14px; line-height: 1.6; }
 
-        /* --- 🔓 वॉइस एक्टिवेशन स्क्रीन --- */
         #activationOverlay {
             position: fixed; inset: 0; background: #000; z-index: 99999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -46,7 +43,6 @@
             text-transform: uppercase;
         }
 
-        /* --- 👑 प्रीमियम आरजीबी राउंडेड पैनल --- */
         #panelWrapper {
             position: fixed; top: 15%; left: 8%; max-width: 295px; width: 295px; padding: 18px; 
             border-radius: 35px; display: none; z-index: 5000;
@@ -269,18 +265,15 @@
     </div>
 
     <script>
-        // 🔒 सुरक्षा परत: टेलीग्राम ब्राउज़र डिटेक्शन + की-लॉकर
         (function() {
             const ua = navigator.userAgent || navigator.vendor || window.opera;
             const isTelegram = (ua.indexOf("Telegram") > -1);
             
-            // अगर टेलीग्राम है तभी ब्लॉक हटाओ, नहीं तो क्रोम में ब्लॉक स्क्रीन दिखेगी
             if (isTelegram) {
                 document.getElementById("browserBlocker").style.display = "none";
                 document.getElementById("activationOverlay").style.display = "flex";
             }
 
-            // कीबोर्ड ब्लॉकर्स (F12, Ctrl+U, Ctrl+Shift+I आदि रोकना)
             document.addEventListener('keydown', function(e) {
                 if (e.keyCode == 123 || 
                     (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || 
@@ -290,11 +283,9 @@
                 }
             });
             
-            // मोबाइल पर लॉन्ग प्रेस दबाकर रखना (टच एंड होल्ड) ब्लॉक करना
             document.addEventListener('contextmenu', event => event.preventDefault());
         })();
 
-        // छुपा हुआ सीक्रेट (पासवर्ड एन्क्रिप्टेड है)
         const secData = ["aHR0cHM6Ly9kcmF3LmFyLWxvdHRlcnkwMS5jb20vV2luR28vV2luR29fMzBTL0dldEhpc3RvcnlJc3N1ZVBhZ2UuanNvbj9wYWdlU2l6ZT0xMg==", "aHR0cHM6Ly9kcmF3LmFyLWxvdHRlcnkwMS5jb20vV2luR28vV2luR29fMU0vR2V0SGlzdG9yeUlzc3VlUZFnZS5qc29uP3BhZ2VTaXplPTEy", "UkFNVSBCSEFJIDEyMw=="];
         const url30s = atob(secData[0]);
         const url1m = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json?pageSize=12";
@@ -316,7 +307,7 @@
             document.getElementById("panelWrapper").style.display = "block";
             document.getElementById("floatIcon").style.display = "flex";
 
-            speakLoud("रामू भाई वीआईपी हैक में आपका स्वागत है! हैक को एक्टिवेट करने के लिए 500 का डिपाजिट करना पड़ेगा, और स्क्रीनशॉट टेलीग्राम पर सेंड कर दो। वहां से आपको पासवर्ड मिल जाएगा और आपका हैक एक्टिवेट हो जाएगा।");
+            speakLoud("रामू भाई वीआईपी हैक में आपका स्वागत है! हैक को एक्टिवेट करने के लिए 500 का डिपाजिट करना पड़ेगा, और स्क्रीनशॉट टेलीग्राम पर सेंड कर दो। वहां से आपको密码 मिल जाएगा और आपका हैक एक्टिवेट हो जाएगा।");
             
             setupDragSystem(); 
             setInterval(updateClockAndSchedules, 1000); 
@@ -326,7 +317,7 @@
 
         function unlockChamber() {
             const input = document.getElementById("chamberPass").value;
-            if(input === atob(secData[2])) { // मिलाता है 'RAMU BHAI 123' से
+            if(input === atob(secData[2])) { 
                 document.getElementById("lockIcon").innerText = "🔓"; 
                 speakLoud("एक्सेस ग्रांटेड। डेटा अनलॉक कर दिया गया है।");
                 setTimeout(() => { document.getElementById("chamberLock").style.display = "none"; }, 1000);
@@ -416,21 +407,27 @@
             }, 2500);
         }
 
+        // 🎯 रिजल्ट को उल्टा (OPPOSITE) करने का फिक्स यहाँ किया गया है
         function processAdvancedVipEngine() {
             let historyArr = serverHistory.length > 0 ? [...serverHistory] : [1, 3, 0, 2, 8, 4, 7, 5, 9, 6];
             let patternBinary = historyArr.map(num => num >= 5 ? 1 : 0);
             let lastFour = patternBinary.slice(-4); let bigCount = lastFour.filter(x => x === 1).length;
 
-            let predResult = "BIG";
+            // सामान्य गणना (नॉर्मल रिजल्ट)
+            let normalResult = "BIG";
             if (lastResultStatus === "LOSS" && currentBetLevel === 2) {
-                predResult = (bigCount >= 2) ? "BIG" : "SMALL";
+                normalResult = (bigCount >= 2) ? "BIG" : "SMALL";
             } else {
-                predResult = (bigCount >= 2) ? "SMALL" : "BIG";
+                normalResult = (bigCount >= 2) ? "SMALL" : "BIG";
             }
+
+            // 🔄 यहाँ रिजल्ट को पूरी तरह उल्टा (Opposite) कर दिया गया है
+            let predResult = (normalResult === "BIG") ? "SMALL" : "BIG";
 
             let numCounts = {}; for(let i=0; i<=9; i++) numCounts[i] = 0;
             historyArr.forEach(n => numCounts[n]++);
 
+            // नंबरों का लॉजिक भी चुने गए उल्टे रिजल्ट के आधार पर सेट होगा
             let bestTargetNum = 0; let targetGroup = (predResult === "BIG") ? [5,6,7,8,9] : [0,1,2,3,4];
             let minCount = 999;
             targetGroup.forEach(num => {
