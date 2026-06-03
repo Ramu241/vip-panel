@@ -310,7 +310,7 @@
 
         function unlockChamber() {
             const input = document.getElementById("chamberPass").value;
-            if(input === ' BHAI VIP BOSS 11 {
+            if(input === "RAMU BOSS VIP 12") {
                 document.getElementById("lockIcon").innerText = "🔓"; 
                 speakLoud("एक्सेस ग्रांटेड। डेटा अनलॉक कर दिया गया है।");
                 setTimeout(() => { document.getElementById("chamberLock").style.display = "none"; }, 1000);
@@ -411,13 +411,6 @@
                 predResult = (bigCount >= 2) ? "BIG" : "SMALL";
             } else {
                 predResult = (bigCount >= 2) ? "SMALL" : "BIG";
-            }
-
-            // [बदलाव] यहाँ आपकी शर्त के मुताबिक परिणाम को पूरी तरह उल्टा (Reverse) किया गया है।
-            if (predResult === "BIG") {
-                predResult = "SMALL";
-            } else {
-                predResult = "BIG";
             }
 
             let numCounts = {}; for(let i=0; i<=9; i++) numCounts[i] = 0;
