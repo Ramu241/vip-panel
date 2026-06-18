@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>╰‿╯RAMUㅤᏴᎻᎪᏆ DRAGON SYNC v45</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&family=Share+Tech+Mono&display=swap');
+        
+        /* 🌌 NEON TOXIC PURPLE & BLOOD RED V45 SYSTEM THEME */
+        :root { 
+            --cyber-neon: #ff0055;
+            --cyber-glow: #00ffcc;
+            --toxic-purple: #9d00ff;
+            --panel-bg: rgba(6, 4, 12, 0.85);
+            --dark-core: #030206;
+        }
+        
+        body, html { margin:0; padding:0; height:100%; background: #010103; overflow: hidden; font-family: 'Rajdhani', sans-serif; user-select: none; }
+        #gameFrame { width: 100%; height: 100vh; border: none; z-index: 1; display: block; }
+        
+        /* ⚡ ULTRA-DANGEROUS HACKER LOADING SCREEN */
+        #loadingScreen { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: radial-gradient(circle at center, #120124 0%, #000000 100%); 
+            z-index: 999999; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            border: 3px solid var(--cyber-neon); box-sizing: border-box;
+            box-shadow: inset 0 0 120px rgba(255, 0, 85, 0.3);
+            opacity: 1; transition: opacity 0.5s ease-out;
+        }
+        .cyber-hacker-icon { font-size: 60px; color: var(--cyber-glow); text-shadow: 0 0 30px var(--cyber-glow); animation: glitchPulse 0.5s infinite alternate; margin-bottom: 25px; }
+        .ramu-brand-title { font-size: 26px; font-weight: 900; color: #fff; text-align: center; letter-spacing: 2px; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 20px var(--cyber-neon); margin-bottom: 10px; }
+        .system-status-log { font-size: 12px; font-weight: 700; color: var(--cyber-glow); text-align: center; letter-spacing: 3px; font-family: 'Share Tech Mono', monospace; margin-bottom: 35px; text-transform: uppercase; }
+        .matrix-progress-bar { width: 260px; height: 6px; background: rgba(0, 255, 204, 0.05); border-radius: 4px; border: 1px solid var(--cyber-glow); overflow: hidden; box-shadow: 0 0 20px rgba(0, 255, 204, 0.3); }
+        .matrix-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--toxic-purple), var(--cyber-neon), var(--cyber-glow)); }
+        .realtime-text-counter { font-family: 'Share Tech Mono'; font-size: 12px; color: #fff; margin-top: 15px; letter-spacing: 2px; }
+
+        /* 🛑 REGISTRATION NOTICE POPUP */
+        #registrationWarningModal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(2, 1, 4, 0.96); backdrop-filter: blur(25px);
+            z-index: 999998; display: none; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;
+        }
+        .warning-card {
+            width: 340px; background: #0b0714; border: 2px solid var(--cyber-neon); border-radius: 20px;
+            padding: 30px 20px; text-align: center; box-shadow: 0 0 45px rgba(255, 0, 85, 0.4);
+            animation: cyberPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .warning-card h2 { font-family: 'Orbitron'; color: var(--cyber-glow); font-size: 20px; margin: 0 0 18px 0; text-shadow: 0 0 12px var(--cyber-glow); }
+        .warning-text-content { color: #e2def2; font-size: 14px; font-weight: 600; line-height: 1.6; text-align: left; background: rgba(157, 0, 255, 0.06); padding: 18px; border-radius: 12px; border: 1px solid rgba(0, 255, 204, 0.2); margin-bottom: 25px; }
+        .warning-ok-btn {
+            width: 100%; background: linear-gradient(90deg, var(--cyber-neon), var(--toxic-purple)); border: none; border-radius: 10px;
+            padding: 14px; color: #fff; font-size: 13px; font-weight: 900; font-family: 'Orbitron'; cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 0, 85, 0.4); text-transform: uppercase; letter-spacing: 2px;
+        }
+
+        /* 🎛️ HUD NAVBAR TRIGGER SYSTEM */
+        .top-btn-navbar { position: fixed; top: 12px; right: 12px; display: flex; gap: 10px; z-index: 10000; background: rgba(11, 7, 20, 0.8); backdrop-filter: blur(15px); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(0, 255, 204, 0.3); }
+        .action-btn { width: 38px; height: 38px; background: rgba(0, 0, 0, 0.7); border: 2px solid var(--cyber-neon); border-radius: 12px; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; box-shadow: 0 0 10px rgba(255, 0, 85, 0.3); transition: all 0.3s; }
+        .action-btn:hover { transform: scale(1.05); border-color: var(--cyber-glow); color: var(--cyber-glow); }
+        .tg-top-btn { border-color: #00ffcc !important; color: #00ffcc; box-shadow: 0 0 10px rgba(0, 255, 204, 0.3); }
+        
+        /* 🔐 VERIFICATION INTERFACE MODAL */
+        #cryptoAuthModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 2, 6, 0.98); backdrop-filter: blur(25px); z-index: 99999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.4s ease; padding: 15px; }
+        #cryptoAuthModal.visible { opacity: 1; pointer-events: auto; }
+        .crypto-card { width: 330px; background: #07050d; border: 2px solid var(--cyber-glow); border-radius: 22px; padding: 25px; text-align: center; box-shadow: 0 15px 50px rgba(0, 255, 204, 0.3); }
+        .warning-notice-box { background: rgba(0, 255, 204, 0.04); border: 1px dashed var(--cyber-glow); border-radius: 12px; padding: 14px; text-align: center; margin-bottom: 20px; }
+        .warning-notice-box i { font-size: 20px; color: var(--cyber-neon); animation: glitchPulse 0.6s infinite alternate; }
+        .warning-notice-box p { color: #e2def2; font-size: 13px; font-weight: 700; line-height: 1.5; margin-top: 6px; }
+        .crypto-input { width: 100%; background: rgba(0,0,0,0.8); border: 1px solid var(--cyber-neon); border-radius: 10px; padding: 12px; text-align: center; font-size: 16px; color: #fff; margin-bottom: 15px; font-family: 'Share Tech Mono'; outline: none; letter-spacing: 4px; box-sizing: border-box; box-shadow: inset 0 0 10px rgba(255, 0, 85, 0.2); }
+        .crypto-btn { width: 100%; background: linear-gradient(90deg, var(--cyber-glow), var(--toxic-purple)); border: none; border-radius: 10px; padding: 13px; color: #000; font-size: 13px; font-weight: 900; font-family: 'Orbitron'; cursor: pointer; text-transform: uppercase; margin-bottom: 12px; box-shadow: 0 4px 20px rgba(0, 255, 204, 0.4); letter-spacing: 1px; }
+        .tg-link-btn { display: inline-flex; align-items: center; justify-content: center; background: #00ffcc; color: #000; text-decoration: none; padding: 12px; border-radius: 10px; font-size: 13px; font-weight: 900; font-family: 'Orbitron'; width: 100%; box-sizing: border-box; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(0,255,204,0.2); }
+        #coreVerifyScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #040207; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 2; border-radius: 20px; }
+        .verify-spinner { width: 44px; height: 44px; border: 3px solid rgba(0,255,204,0.1); border-top-color: var(--cyber-glow); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px; }
+        
+        /* 🛸 NEON CYBERPUNK DRAGGABLE PREMIUM PANEL */
+        #choudharyPredPanel { 
+            position: fixed; top: 48%; left: 50%; transform: translate(-50%, -50%); width: 345px; max-height: 94vh; 
+            background: var(--panel-bg) !important; backdrop-filter: blur(22px) saturate(160%); -webkit-backdrop-filter: blur(22px) saturate(160%); 
+            border-radius: 24px; z-index: 9998; display: none; flex-direction: column; align-items: center; justify-content: flex-start; 
+            padding: 14px; box-sizing: border-box; border: 2px solid var(--cyber-neon); 
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.95), inset 0 0 25px rgba(255, 0, 85, 0.15); touch-action: none; gap: 8px; 
+        }
+        .brand-header { width: 100%; text-align: center; font-size: 14px; font-weight: 900; color: #fff; background: linear-gradient(90deg, transparent, rgba(255, 0, 85, 0.25), transparent); padding: 8px 0; border-bottom: 1px solid rgba(255, 0, 85, 0.4); letter-spacing: 1px; font-family: 'Orbitron', serif; text-shadow: 0 0 12px var(--cyber-neon); }
+        
+        .live-score-counter { width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; text-align: center; }
+        .score-box { background: rgba(0, 0, 0, 0.8); padding: 7px 2px; border-radius: 10px; border: 1px solid rgba(255, 0, 85, 0.2); font-size: 10px; font-weight: 700; color: #b5b0cc; }
+        .score-box span { display: block; font-size: 13px; font-weight: 900; margin-top: 2px; font-family: 'Share Tech Mono'; color: #fff; text-shadow: 0 0 5px #fff; }
+        
+        .mode-selector { display: flex; gap: 6px; width: 100%; background: rgba(0,0,0,0.6); padding: 4px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .mode-btn { flex: 1; text-align: center; font-size: 10px; font-weight: 800; padding: 8px 0; color: #8e88a5; cursor: pointer; border-radius: 8px; background: transparent; border: none; font-family: 'Orbitron'; }
+        .mode-btn.active { background: rgba(255, 0, 85, 0.15); color: #fff; border: 1px solid var(--cyber-neon); text-shadow: 0 0 8px var(--cyber-neon); }
+        
+        /* RESULTS INTERFACE ENGINE */
+        .result-display-box { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; height: 62px; overflow: hidden; border-radius: 12px; background: #030106; border: 1.5px solid rgba(0, 255, 204, 0.3); }
+        #mainSizeText { font-size: 18px; font-weight: 900; color: #fff; text-transform: uppercase; z-index: 6; letter-spacing: 1px; font-family: 'Orbitron'; }
+        .laser-line { position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--cyber-glow), #fff, transparent); box-shadow: 0 0 15px var(--cyber-glow); display: none; z-index: 10; animation: scanVertical 1.2s linear infinite; }
+        
+        @keyframes scanVertical { 0% { top: 0%; } 50% { top: 94%; } 100% { top: 0%; } }
+        .panel-footer-info { display: flex; width: 100%; gap: 6px; }
+        .period-info, .timer-info { flex: 1; text-align: center; color: #fff; background: rgba(0, 0, 0, 0.7); padding: 8px 0; border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255, 0, 85, 0.15); }
+        .period-info span { color: var(--cyber-glow); font-weight: 900; font-family: 'Share Tech Mono'; text-shadow: 0 0 5px var(--cyber-glow); }
+        .timer-info span { color: #fff; font-weight: 900; font-family: 'Share Tech Mono'; }
+        
+        /* DATA SYSTEM LIST */
+        .history-section { width: 100%; background: rgba(0, 0, 0, 0.7); border-radius: 12px; padding: 6px; border: 1px solid rgba(0, 255, 204, 0.15); overflow-y: auto; max-height: 140px; box-sizing: border-box; }
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        th, td { padding: 6px 4px; text-align: center; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        th { color: var(--cyber-glow); border-bottom: 1px solid var(--cyber-glow); position: sticky; top: 0; background: #07040d; z-index: 1; font-size: 10px; font-family: 'Orbitron'; }
+        .win { color: var(--cyber-glow) !important; font-weight: 900; text-shadow: 0 0 5px var(--cyber-glow); }
+        .loss { color: var(--cyber-neon) !important; font-weight: 900; text-shadow: 0 0 5px var(--cyber-neon); }
+        .jackpot-glow { color: #ffff00 !important; font-weight: 900; text-shadow: 0 0 10px #ffff00; }
+        
+        /* BROADCAST FEED MODAL */
+        #fullscreenAlert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100000; display: none; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(12px); }
+        .alert-content { padding: 35px 50px; border-radius: 20px; text-align: center; font-size: 40px; font-weight: 900; letter-spacing: 2px; box-shadow: 0 0 60px rgba(0,0,0,0.9); font-family: 'Orbitron'; }
+        .alert-sub { font-size: 15px; letter-spacing: 1px; color: #fff; margin-top: 10px; font-weight: bold; font-family: 'Rajdhani'; }
+        .alert-win { background: rgba(2, 22, 18, 0.96); border: 2.5px solid var(--cyber-glow); color: var(--cyber-glow); text-shadow: 0 0 25px var(--cyber-glow); }
+        .alert-loss { background: rgba(26, 2, 12, 0.96); border: 2.5px solid var(--cyber-neon); color: var(--cyber-neon); text-shadow: 0 0 25px var(--cyber-neon); }
+        
+        @keyframes cyberPop { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes glitchPulse { 0% { opacity: 0.7; transform: scale(0.97); filter: hue-rotate(0deg); } 100% { opacity: 1; transform: scale(1.03); filter: hue-rotate(20deg); } }
+    </style>
+</head>
+<body>
+
+<div id="fullscreenAlert"><div class="alert-content" id="alertBox">WIN<div class="alert-sub" id="alertSubText"></div></div></div>
+
+<!-- ⚡ CYBERPUNK LOADING BOOT ENGINE -->
+<div id="loadingScreen">
+    <i class="fas fa-terminal cyber-hacker-icon"></i>
+    <div class="ramu-brand-title">╰‿╯RAMUㅤᏴᎻᎪᏆ</div>
+    <div class="system-status-log">🎮 INJECTING SECURE MAINBOARD CODES...</div>
+    <div class="matrix-progress-bar"><div class="matrix-fill" id="progBar"></div></div>
+    <div class="realtime-text-counter" id="statusLoadTxt">CYBER ENGINE... 0%</div>
+</div>
+
+<!-- 🚨 REGISTER SAFETY WARN MODAL -->
+<div id="registrationWarningModal">
+    <div class="warning-card">
+        <h2>🔥 RAMU BHAI SPECIAL SYSTEM</h2>
+        <div class="warning-text-content">
+            📢 <b>महत्वपूर्ण चेतावनी (╰‿╯RAMUㅤᏴᎻᎪᏆ):</b><br><br>
+            कृपया केवल इसी दिए गए लिंक से नया अकाउंट रजिस्टर करके ही गेम प्ले करें। <br><br>
+            यदि आप पुराना या कोई दूसरा अकाउंट लॉगिन करके प्ले करेंगे, तो आपका मोड डेटा सिंक फेल हो जाएगा और आपको <b>लॉस (Loss)</b> उठाना पड़ सकता है!
+        </div>
+        <button class="warning-ok-btn" onclick="acknowledgeWarning()">⚡ AGREE & ENTER SYSTEM</button>
+    </div>
+</div>
+
+<!-- 🌐 NEW SYNCED ACTIVE GAME FRAME -->
+<iframe id="gameFrame" src="https://bdgwinmy.cc//#/register?invitationCode=8261315097340"></iframe>
+
+<div class="top-btn-navbar">
+    <div class="action-btn tg-top-btn" onclick="openTelegram()"><i class="fab fa-telegram-plane"></i></div>
+    <div class="action-btn" id="btnPanel" onclick="handlePanelClick(event)"><i class="fas fa-terminal"></i></div>
+</div>
+
+<!-- 🔑 VERIFICATION SYSTEM WITH MASTER PASSWORD SETUP -->
+<div id="cryptoAuthModal">
+    <div class="crypto-card">
+        <div id="coreVerifyScreen"><div class="verify-spinner"></div><div style="color:var(--cyber-glow); font-size:12px; font-weight:900;" id="verifyStatusText">CONNECTING CYBER CORE CORE...</div></div>
+        <div class="warning-notice-box"><i class="fas fa-shield-alt"></i><p>कृपया इसी लिंक से आईडी बनाकर 500 का डिपॉजिट करें, फिर टेलीग्राम पर जाकर पासवर्ड ले सकते हैं।</p></div>
+        <input type="password" id="passkeyField" class="crypto-input" placeholder="••••••••">
+        <button class="crypto-btn" onclick="verifyAccess()">🔓 BYPASS & INJECT CODE</button>
+        <a href="https://t.me/+h5jDuTLxOEQ4NmVl" target="_blank" class="tg-link-btn"><i class="fab fa-telegram-plane"></i> 📡 JOIN OFFICIAL TELEGRAM</a>
+    </div>
+</div>
+
+<!-- 🛸 ╰‿╯RAMUㅤᏴᎻᎪᏆ PREMIUM SYSTEM MOD PANEL -->
+<div id="choudharyPredPanel">
+    <div class="brand-header">╰‿╯RAMUㅤᏴᎻᎪᏆ VIP</div>
+    <div class="live-score-counter">
+        <div class="score-box">📊 TOTAL<span id="scoreTotal">0</span></div>
+        <div class="score-box" style="color:var(--cyber-glow)">🔮 WIN<span id="scoreWins">0</span></div>
+        <div class="score-box" style="color:var(--cyber-neon)">💥 LOSS<span id="scoreLoss">0</span></div>
+        <div class="score-box" style="color:#ffff00">🎯 RATE<span id="scoreRate">0%</span></div>
+    </div>
+    <div class="mode-selector">
+        <div class="mode-btn active" id="m30s" onclick="setMode('30S')">⚡ WINGO 30S</div>
+        <div class="mode-btn" id="m1m" onclick="setMode('1M')">🕒 WINGO 1M</div>
+    </div>
+    <div class="result-display-box"><div class="laser-line" id="laserScanner"></div><div id="mainSizeText">🤖 SYNCED TO RAMU CORE</div></div>
+    <div class="panel-footer-info">
+        <div class="period-info">📌 PERIOD: <span id="tgtPeriod">---</span></div>
+        <div class="timer-info">⏳ TIMER: <span id="remTimeBox">00:30</span></div>
+    </div>
+    <div class="history-section"><table><thead><tr><th>PERIOD</th><th>🔮 PRED</th><th>📊 RESULT</th><th>⚡ STATUS</th></tr></thead><tbody id="logs"></tbody></table></div>
+</div>
+
+<script>
+    // Anti-DevTools Security
+    (function() {
+        const preventDevTools = () => {
+            setInterval(() => { debugger; }, 50);
+            window.addEventListener('keydown', (e) => {
+                if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85)) {
+                    e.preventDefault();
+                    triggerSystemBlock();
+                }
+            });
+            document.addEventListener('contextmenu', e => { e.preventDefault(); triggerSystemBlock(); });
+        };
+        function triggerSystemBlock() {
+            document.body.innerHTML = "<h1 style='color:var(--cyber-neon); text-align:center; margin-top:20%; font-family:sans-serif;'>❌ CRITICAL SECURITY OVERWRITE DEPLOYED BY RAMU BHAI.</h1>";
+            throw new Error("Security Countermeasure deployed.");
+        }
+        preventDevTools();
+    })();
+
+    let SECRET_ACCESS_KEY = "102030405060708090100";
+    let isAuthed = false, isPanelVisible = false, currentActiveMode = "30S", isScanning = false;
+    let API_30S = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
+    let API_1M = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
+    
+    let systemData = {
+        "30S": {lastFetched:"",nextPeriod:"---",displayState:"🤖 RAMU CORE SYNC",rawPred:"🤖 RAMU CORE SYNC",lastSize:"",nums:[],wins:0,losses:0,total:0,logs:[],processed:""},
+        "1M": {lastFetched:"",nextPeriod:"---",displayState:"🤖 RAMU CORE SYNC",rawPred:"🤖 RAMU CORE SYNC",lastSize:"",nums:[],wins:0,losses:0,total:0,logs:[],processed:""}
+    };
+
+    function openTelegram() { window.open("https://t.me/+h5jDuTLxOEQ4NmVl","_blank"); }
+
+    function runLoading() {
+        let bar = document.getElementById("progBar");
+        let txt = document.getElementById("statusLoadTxt");
+        let percentage = 0;
+        
+        let timer = setInterval(() => {
+            percentage += 1;
+            bar.style.width = percentage + "%";
+            
+            if(percentage < 30) txt.innerText = `⚙️ PARSING CRACK ARCHIVES... ${percentage}%`;
+            else if(percentage < 65) txt.innerText = `☣️ BOOTING RAMU HACK MATRIX ENGINE... ${percentage}%`;
+            else if(percentage < 90) txt.innerText = `🛡️ ENCRYPTING HIGH PROTOCOL NETWORK... ${percentage}%`;
+            else txt.innerText = `👑 WELCOME RAMU BHAI SYSTEM ACTIVE... ${percentage}%`;
+
+            if(percentage >= 100) {
+                clearInterval(timer);
+                let screen = document.getElementById("loadingScreen");
+                screen.style.opacity = "0";
+                setTimeout(() => {
+                    screen.style.display = "none";
+                    document.getElementById("registrationWarningModal").style.display = "flex";
+                }, 500);
+            }
+        }, 50);
+    }
+
+    function acknowledgeWarning() {
+        document.getElementById("registrationWarningModal").style.display = "none";
+    }
+
+    function handlePanelClick(e) {
+        e.stopPropagation();
+        if(!isAuthed) {
+            document.getElementById("cryptoAuthModal").classList.add("visible");
+        } else {
+            isPanelVisible = !isPanelVisible;
+            document.getElementById("choudharyPredPanel").style.display = isPanelVisible ? "flex" : "none";
+            document.getElementById("btnPanel").style.borderColor = isPanelVisible ? "var(--cyber-glow)" : "var(--cyber-neon)";
+        }
+    }
+
+    function verifyAccess() {
+        let inputVal = document.getElementById("passkeyField").value;
+        if(inputVal === SECRET_ACCESS_KEY) {
+            let verifyScreen = document.getElementById("coreVerifyScreen");
+            verifyScreen.style.display = "flex";
+            let p = 0;
+            let iv = setInterval(() => {
+                p += 20;
+                document.getElementById("verifyStatusText").innerText = `🔑 DECRYPTED SUCCESFULLY (${p}%)`;
+                if(p >= 100) {
+                    clearInterval(iv);
+                    document.getElementById("cryptoAuthModal").classList.remove("visible");
+                    isAuthed = true;
+                    isPanelVisible = true;
+                    document.getElementById("choudharyPredPanel").style.display = "flex";
+                    document.getElementById("btnPanel").style.borderColor = "var(--cyber-glow)";
+                    startGlobalEngine();
+                }
+            }, 600);
+        } else {
+            alert("❌ EXPIRED OR INVALID SECURITY PHRASE KEY!");
+        }
+    }
+
+    function setMode(mode) {
+        if(currentActiveMode === mode || isScanning) return;
+        currentActiveMode = mode;
+        document.getElementById("m30s").classList.toggle("active", mode === "30S");
+        document.getElementById("m1m").classList.toggle("active", mode === "1M");
+        renderUi();
+    }
+
+    function startGlobalEngine() {
+        setInterval(() => {
+            let now = new Date();
+            let sec = now.getUTCSeconds();
+            let rem30s = 30 - (sec % 30);
+            let rem1m = 60 - sec;
+            
+            if(rem30s === 2 || rem30s === 1) fetchNetworkData("30S", API_30S);
+            if(rem1m === 2 || rem1m === 1) fetchNetworkData("1M", API_1M);
+            
+            let activeRem = (currentActiveMode === "30S") ? rem30s : rem1m;
+            document.getElementById("remTimeBox").textContent = "00:" + (activeRem < 10 ? "0" + activeRem : activeRem);
+        }, 1000);
+
+        setInterval(() => {
+            fetchNetworkData("30S", API_30S);
+            fetchNetworkData("1M", API_1M);
+        }, 2200);
+    }
+
+    async function fetchNetworkData(mode, api) {
+        try {
+            let resp = await fetch(api + "?t=" + Date.now());
+            let json = await resp.json();
+            if(json && json.data && json.data.list.length > 0) {
+                let node = json.data.list[0];
+                let serverPeriod = node.issueNumber.toString();
+                let num = parseInt(node.number);
+                let mData = systemData[mode];
+                
+                if(serverPeriod !== mData.lastFetched) {
+                    if(mData.nextPeriod === serverPeriod && mData.displayState !== "WAIT") {
+                        processStrictResult(mode, serverPeriod, num);
+                    }
+                    mData.nextPeriod = (BigInt(serverPeriod) + 1n).toString();
+                    calculateCyberPatternLogics(mode, serverPeriod, json.data.list);
+                    mData.lastFetched = serverPeriod;
+                    if(currentActiveMode === mode) triggerLaserScan();
+                    else mData.displayState = mData.rawPred;
+                }
+            }
+        } catch(e) {}
+    }
+
+    function triggerLaserScan() {
+        isScanning = true;
+        let scanLine = document.getElementById("laserScanner");
+        let displayBoxText = document.getElementById("mainSizeText");
+        scanLine.style.display = "block";
+        displayBoxText.innerText = "⚡ RUNNING CYBER CALCULATION...";
+        displayBoxText.style.color = "var(--cyber-glow)";
+        setTimeout(() => {
+            scanLine.style.display = "none";
+            isScanning = false;
+            let mData = systemData[currentActiveMode];
+            mData.displayState = mData.rawPred;
+            renderUi();
+        }, 2000);
+    }
+
+    /* 👑 FIXED DRAGON TREND LOGIC INTELLIGENCE */
+    function calculateCyberPatternLogics(mode, periodString, list) {
+        let mData = systemData[mode];
+        let arr = list.map(x => {
+            let n = parseInt(x.number);
+            return {num: n, c: n >= 5 ? "BIG" : "SMALL"};
+        });
+        
+        // 1. गिनें कि आख़िरी वाला रिज़ल्ट कितनी बार लगातार आया है (Streak Count)
+        let streak = 1;
+        for(let i = 1; i < arr.length; i++) {
+            if(arr[i].c == arr[0].c) streak++;
+            else break;
+        }
+        
+        let signal = "BIG";
+        
+        // 🔥 न्यू रूल: यदि गेम में 3 या उससे ज़्यादा बार लगातार BIG या SMALL आ चुका है (लॉन्ग पैटर्न)
+        // तो पैनल अपोजिट देने के बजाय उसी पैटर्न के साथ आगे चलेगा ताकि लॉस न हो।
+        if(streak >= 3) {
+            signal = arr[0].c; // जो आख़िरी आया है वही रिपीट करेगा (BIG -> BIG / SMALL -> SMALL)
+        } else {
+            // यदि कोई लंबा पैटर्न नहीं है, तो सामान्य कैलकुलेशन काम करेगी
+            let bigCount = 0, smallCount = 0;
+            for(let i = 0; i < 6; i++) {
+                if(arr[i].c == "BIG") bigCount++; else smallCount++;
+            }
+            if(arr[0].c != arr[1].c && arr[1].c != arr[2].c) {
+                signal = (arr[0].c == "BIG") ? "SMALL" : "BIG";
+            } else {
+                signal = bigCount > smallCount ? "SMALL" : "BIG";
+            }
+        }
+        
+        // नंबर पूल सेटअप
+        let pool = (signal == "BIG") ? [5,6,7,8,9] : [0,1,2,3,4];
+        let g = [pool[Math.floor(Math.random()*pool.length)], pool[Math.floor(Math.random()*pool.length)]];
+        if(g[0] == g[1]) g[1] = pool[(pool.indexOf(g[0])+1)%pool.length];
+
+        mData.lastSize = signal;
+        mData.nums = g;
+        mData.rawPred = `⚡ ${signal} [${g[0]},${g[1]}]`;
+    }
+
+    function showFullscreenAlert(status, text) {
+        let modal = document.getElementById("fullscreenAlert");
+        let box = document.getElementById("alertBox");
+        if(status === "WIN" || status === "JACKPOT") {
+            box.className = "alert-content alert-win";
+            box.innerHTML = `🏆 RAMU BHAI WIN <div class="alert-sub">${text}</div>`;
+        } else {
+            box.className = "alert-content alert-loss";
+            box.innerHTML = `⚠️ SYSTEM SKIPPED <div class="alert-sub">${text}</div>`;
+        }
+        modal.style.display = "flex";
+        setTimeout(() => { modal.style.display = "none"; }, 2000);
+    }
+
+    function processStrictResult(mode, periodString, num) {
+        let mData = systemData[mode];
+        if(mData.processed === periodString) return;
+        let actSize = num >= 5 ? "BIG" : "SMALL";
+        let isWin = (mData.lastSize === actSize);
+        let jackpot = mData.nums.includes(num);
+        let txt = "LOSS", cls = "loss";
+
+        if(jackpot || isWin) {
+            txt = jackpot ? "JACKPOT" : "WIN";
+            cls = jackpot ? "jackpot-glow" : "win";
+            mData.wins++;
+            if(currentActiveMode === mode) showFullscreenAlert(txt, `🔥 CRACK SUCCESS (${actSize} : ${num})`);
+        } else {
+            mData.losses++;
+            if(currentActiveMode === mode) showFullscreenAlert("LOSS", `🔄 SYNC RE-TARGET ON PERIOD ${periodString.slice(-4)}`);
+        }
+        mData.total++;
+        mData.processed = periodString;
+        mData.logs.unshift({
+            period: periodString.slice(-4),
+            pred: `🔮 ${mData.lastSize} [${mData.nums.join(",")}]`,
+            actualResult: `📊 ${actSize} (${num})`,
+            statusText: txt,
+            statusClass: cls
+        });
+    }
+
+    function renderUi() {
+        let mData = systemData[currentActiveMode];
+        document.getElementById("scoreTotal").innerText = mData.total;
+        document.getElementById("scoreWins").innerText = mData.wins;
+        document.getElementById("scoreLoss").innerText = mData.losses;
+        let rate = mData.total > 0 ? Math.floor((mData.wins / mData.total) * 100) : 0;
+        document.getElementById("scoreRate").innerText = rate + "%";
+        document.getElementById("tgtPeriod").innerText = mData.nextPeriod.slice(-4);
+        
+        if(!isScanning) {
+            let textEl = document.getElementById("mainSizeText");
+            textEl.innerText = mData.displayState;
+            if(mData.displayState.includes("BIG")) textEl.style.color = "var(--cyber-glow)";
+            else if(mData.displayState.includes("SMALL")) textEl.style.color = "var(--cyber-neon)";
+            else textEl.style.color = "#fff";
+        }
+
+        let tbody = document.getElementById("logs");
+        tbody.innerHTML = "";
+        mData.logs.forEach(l => {
+            tbody.innerHTML += `<tr><td style='color:var(--cyber-glow); font-family:Share Tech Mono;'>${l.period}</td><td style='color:#ccc;'>${l.pred}</td><td style='color:#fff; font-family:Share Tech Mono; font-weight:800;'>${l.actualResult}</td><td><span class='${l.statusClass}'>${l.statusText}</span></td></tr>`;
+        });
+    }
+
+    function makeDraggable(el) {
+        let active = false, xOff = 0, yOff = 0, startX, startY;
+        el.addEventListener("touchstart", (e) => {
+            if(e.target.closest('.mode-selector') || e.target.closest('.history-section') || e.target.closest('.live-score-counter')) return;
+            active = true;
+            startX = e.touches[0].clientX - xOff;
+            startY = e.touches[0].clientY - yOff;
+        });
+        document.addEventListener("touchmove", (e) => {
+            if(!active) return;
+            xOff = e.touches[0].clientX - startX;
+            yOff = e.touches[0].clientY - startY;
+            el.style.transform = `translate3d(calc(-50% + ${xOff}px), calc(-50% + ${yOff}px), 0)`;
+        });
+        document.addEventListener("touchend", () => { active = false; });
+    }
+
+    window.onload = () => {
+        runLoading();
+        makeDraggable(document.getElementById("choudharyPredPanel"));
+    };
+</script>
+</body>
+</html>
